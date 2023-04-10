@@ -1,0 +1,3 @@
+<button class="inline-block w-full px-4 py-3 mb-2 ml-2 font-bold text-center uppercase align-middle transition-all border border-solid rounded-lg cursor-pointer xl:cursor-not-allowed xl:opacity-65 xl:pointer-events-none xl:bg-gradient-to-tl xl:from-cyan-700 xl:to-cyan-500 xl:text-white xl:border-0 hover:scale-102 hover:shadow-soft-xs active:opacity-85 leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md hover:border-cyan-500 bg-gradient-to-tl from-cyan-700 to-blue-500 bg-blue-500 text-white border-transparent" data-class="bg-white" active-style="" {{ $attributes }}>
+    {{ $slot }}
+</button>
