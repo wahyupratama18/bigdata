@@ -66,11 +66,11 @@
                         training: training,
                         testing: testing,
                     }).then(response => {
-                        result = response.user.result;
+                        result = response.data.result;
                     }).catch(error => {
                         iziToast.error({
                             title: 'Error',
-                            message: error.response.user.message,
+                            message: error.response.data.message,
                             position: 'topRight',
                         })
                     })">

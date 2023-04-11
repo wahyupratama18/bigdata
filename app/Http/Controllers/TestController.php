@@ -39,7 +39,7 @@ class TestController extends Controller
         );
 
         $input->setAttributes(
-            Expert::query()->get()->pluck('name')->merge(['kbk'])->toArray()
+            Expert::query()->has('courses')->get()->pluck('name')->merge(['kbk'])->toArray()
         );
 
         $c45->c45 = $input;
