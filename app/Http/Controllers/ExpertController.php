@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreExpertRequest;
 use App\Http\Requests\UpdateExpertRequest;
 use App\Models\Expert;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class ExpertController extends Controller
 {
@@ -13,9 +15,11 @@ class ExpertController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): View
     {
-        //
+        return view('expert.index', [
+            'experts' => Expert::query()->withCount('courses')->get(),
+        ]);
     }
 
     /**
@@ -23,9 +27,9 @@ class ExpertController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(): View
     {
-        //
+        return view('expert.create');
     }
 
     /**
@@ -33,9 +37,13 @@ class ExpertController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreExpertRequest $request)
+    public function store(StoreExpertRequest $request): RedirectResponse
     {
-        //
+        foreach ($request->name as $name) {
+            Expert::query()->create(['name' => $name]);
+        }
+
+        return redirect()->route('expert.index')->with('success', 'Expert created successfully');
     }
 
     /**
@@ -63,9 +71,11 @@ class ExpertController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateExpertRequest $request, Expert $expert)
+    public function update(UpdateExpertRequest $request, Expert $expert): RedirectResponse
     {
-        //
+        $expert->update($request->validated());
+
+        return redirect()->route('expert.index')->with('success', 'Expert updated successfully');
     }
 
     /**
@@ -73,8 +83,12 @@ class ExpertController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Expert $expert)
+    public function destroy(Expert $expert): RedirectResponse
     {
-        //
+        $this->authorize('delete', $expert);
+
+        $expert->delete();
+
+        return redirect()->route('expert.index')->with('success', 'Expert deleted successfully');
     }
 }

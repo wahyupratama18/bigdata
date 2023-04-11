@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
 class TestController extends Controller
@@ -24,6 +25,12 @@ class TestController extends Controller
 
     public function store(Request $request): JsonResponse
     {
+        $request->validate([
+            'training' => 'required|array|min:5',
+            'training.*' => ['required', 'integer', 'distinct', Rule::exists(User::class, 'id')],
+            'testing' => ['required', 'integer', Rule::exists(User::class, 'id')],
+        ]);
+
         $c45 = new C45();
         $input = new DataInput();
 

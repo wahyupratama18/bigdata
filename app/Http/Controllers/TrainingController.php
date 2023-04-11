@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Algorithm\C45;
+use Algorithm\C45\DataInput;
 use App\Models\Course;
+use App\Models\Expert;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -12,9 +15,6 @@ use Rubix\ML\Classifiers\NaiveBayes;
 use Rubix\ML\Datasets\Labeled;
 use Rubix\ML\Datasets\Unlabeled;
 use Rubix\ML\Extractors\CSV;
-use Algorithm\C45;
-use Algorithm\C45\DataInput;
-use App\Models\Expert;
 
 class TrainingController extends Controller
 {
@@ -1388,7 +1388,7 @@ class TrainingController extends Controller
 
         $input->setData($trainer = $this->trainer(8)->toArray());
         $input->setAttributes(
-            Expert::query()->get()->pluck('name')->merge(['kbk'])->toArray()
+            Expert::query()->has('courses')->get()->pluck('name')->merge(['kbk'])->toArray()
         );
 
         $c45->c45 = $input;

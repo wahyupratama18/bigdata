@@ -55,9 +55,9 @@ class ExpertPolicy
      *
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Expert $expert)
+    public function delete(User $user, Expert $expert): bool
     {
-        //
+        return true;
     }
 
     /**

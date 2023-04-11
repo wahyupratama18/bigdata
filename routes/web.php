@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CSVController;
-use App\Http\Controllers\DataController;
+use App\Http\Controllers\ExpertController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\TrainingController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,11 +21,10 @@ use Illuminate\Support\Facades\Route;
 
 // Route::get('/csv', CSVController::class);
 Route::get('/train', TrainingController::class);
-Route::get('/', function () {
-    return view('main');
-});
+Route::get('/', fn () => view('main'));
 
-Route::resource('data', DataController::class);
+Route::resource('user', UserController::class);
 
-Route::get('test', [TestController::class, 'index'])->name('test.index');
-Route::post('test', [TestController::class, 'store'])->name('test.store');
+Route::resource('test', TestController::class)->only(['index', 'store']);
+Route::resource('course', CourseController::class);
+Route::resource('expert', ExpertController::class);

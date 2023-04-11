@@ -2,18 +2,18 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Expert;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreExpertRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,10 +21,11 @@ class StoreExpertRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            //
+            'name' => ['required', 'array'],
+            'name.*' => ['required', 'string', 'max:255', Rule::unique(Expert::class, 'name')],
         ];
     }
 }

@@ -8,7 +8,7 @@
 
         <h2 class="text-lg font-semibold">Pilih Data Training</h2>
 
-        <div class="p-6 bg-white dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none overflow-x-0">
+        <div class="p-6 bg-white dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none overflow-x-auto">
             <table class="items-center w-full mb-0 align-top border-gray-200 text-slate-500 dark:text-slate-50">
                 <thead>
                     <tr class="[&_th]:px-6 [&_th]:py-3 [&_th]:font-bold [&_th]:text-left [&_th]:uppercase [&_th]:align-middle [&_th]:border-b [&_th]:border-gray-200 [&_th]:shadow-none [&_th]:text-xs [&_th]:tracking-none [&_th]:whitespace-nowrap [&_th]:opacity-70">
@@ -36,7 +36,7 @@
             </table>
         </div>
 
-        <div x-show="training.count() > 0">
+        <div x-show="training.count() > 4">
             <h2 class="text-lg font-semibold mb-6">Pilih Data Testing</h2>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -66,7 +66,13 @@
                         training: training,
                         testing: testing,
                     }).then(response => {
-                        result = response.data.result;
+                        result = response.user.result;
+                    }).catch(error => {
+                        iziToast.error({
+                            title: 'Error',
+                            message: error.response.user.message,
+                            position: 'topRight',
+                        })
                     })">
                     Submit
                 </x-button>

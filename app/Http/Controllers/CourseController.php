@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCourseRequest;
 use App\Http\Requests\UpdateCourseRequest;
 use App\Models\Course;
+use App\Models\Expert;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class CourseController extends Controller
 {
@@ -13,9 +16,11 @@ class CourseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): View
     {
-        //
+        return view('course.index', [
+            'courses' => Course::query()->withCount('users')->with('experts')->get(),
+        ]);
     }
 
     /**
@@ -23,9 +28,11 @@ class CourseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(): View
     {
-        //
+        return view('course.create', [
+            'experts' => Expert::query()->get(),
+        ]);
     }
 
     /**
@@ -33,9 +40,15 @@ class CourseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreCourseRequest $request)
+    public function store(StoreCourseRequest $request): RedirectResponse
     {
-        //
+        foreach ($request->name as $key => $name) {
+            Course::query()->create([
+                'name' => $name,
+            ])->experts()->attach($request->expert_id[$key]);
+        }
+
+        return redirect()->route('course.index')->with('success', 'Course created successfully');
     }
 
     /**

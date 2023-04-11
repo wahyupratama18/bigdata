@@ -13,7 +13,7 @@ class Course extends Model
 
     protected $fillable = ['name'];
 
-    protected $scores = [
+    public const SCORES = [
         'A' => 4,
         'A-' => 3.7,
         'B+' => 3.3,
@@ -44,7 +44,7 @@ class Course extends Model
     public function inNumber(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->isPivotExist() ? $this->scores[$this->pivot->score] : '',
+            get: fn () => $this->isPivotExist() ? self::SCORES[$this->pivot->score] : '',
         );
     }
 
