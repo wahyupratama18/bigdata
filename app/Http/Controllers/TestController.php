@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Algorithm\C45;
 use Algorithm\C45\DataInput;
-use App\Models\Course;
 use App\Models\Expert;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;

@@ -20,10 +20,9 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->expertSeed()
-        ->courseSeed()
-        /* ->userSeed() */;
+        ->courseSeed();
 
-        for ($i=0; $i < 17; $i++) { 
+        for ($i = 0; $i < 1; $i++) {
             $this->userSeed();
         }
 
