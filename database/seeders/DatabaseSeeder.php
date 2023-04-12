@@ -21,7 +21,11 @@ class DatabaseSeeder extends Seeder
     {
         $this->expertSeed()
         ->courseSeed()
-        ->userSeed();
+        /* ->userSeed() */;
+
+        for ($i=0; $i < 17; $i++) { 
+            $this->userSeed();
+        }
 
         // $scores = collect(['A', 'A-', 'B+', 'B', 'B-'/* , 'C+', 'C' *//* , 'D', 'E' */]);
         // $randomScores = collect(['A', 'A-', 'B+', 'B', 'B-', 'C+', 'C'/* , 'D', 'E' */]);

@@ -66,39 +66,15 @@ class TestController extends Controller
         return $this->query()
         ->inRandomOrder()
         ->find($users)
-        ->map(function (User $user) {
-            return $this->mapper($user);
-        });
+        ->map(fn (User $user) => $user->userExpertise());
     }
 
-    private function testing(int $searched)
+    private function testing(int $searched): Collection
     {
         $user = $this->query()
         ->find($searched);
 
-        return $this->mapper($user, false);
-    }
-
-    private function mapper(User $user, bool $kbk = true): Collection
-    {
-        $courses = $user->courses->map(
-            fn (Course $course) => $course->experts->pluck('name')
-            ->map(fn (string $expert) => [
-                'name' => $course->name,
-                'score' => $course->inNumber,
-                'expert' => $expert,
-            ])
-        )->flatten(1)
-        ->groupBy('expert')
-        ->map(function (Collection $expert) {
-            return $expert->average('score');
-        });
-
-        if ($kbk) {
-            $courses->put('kbk', $courses->search($courses->max()));
-        }
-
-        return $courses;
+        return $user->userExpertise(false);
     }
 
     private function query(): Builder

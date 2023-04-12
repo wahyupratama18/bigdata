@@ -62,4 +62,28 @@ class User extends Authenticatable
 
         return $this;
     }
+
+    public function userExpertise(bool $kbk = true): Collection
+    {
+        $this->relationLoaded('courses.experts') || $this->load('courses.experts');
+
+        $courses = $this->courses->map(
+            fn (Course $course) => $course->experts->pluck('name')
+            ->map(fn (string $expert) => [
+                'name' => $course->name,
+                'score' => $course->inNumber,
+                'expert' => $expert,
+            ])
+        )->flatten(1)
+        ->groupBy('expert')
+        ->map(function (Collection $expert) {
+            return $expert->average('score');
+        });
+
+        if ($kbk) {
+            $courses->put('kbk', $courses->search($courses->max()));
+        }
+
+        return $courses;
+    }
 }

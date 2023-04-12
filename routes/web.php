@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/csv', CSVController::class);
+Route::get('/csv', CSVController::class);
 Route::get('/train', TrainingController::class);
 Route::get('/', fn () => view('main'));
 
